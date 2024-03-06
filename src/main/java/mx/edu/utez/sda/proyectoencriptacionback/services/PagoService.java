@@ -22,6 +22,6 @@ public class PagoService {
 
     @Transactional(rollbackFor = {Exception.class})
     public CustomReponse<List<Pago>> getAll() {
-        return new CustomReponse<>(pagoRepository.findAll(), false, 200, "Pago registrado correctamente");
+        return new CustomReponse<>(pagoRepository.findAll(), false, 200, "Ok");
     }
 }
