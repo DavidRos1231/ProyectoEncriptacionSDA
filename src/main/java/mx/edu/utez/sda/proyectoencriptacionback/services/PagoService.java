@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -23,5 +24,26 @@ public class PagoService {
     @Transactional(rollbackFor = {Exception.class})
     public CustomReponse<List<Pago>> getAll() {
         return new CustomReponse<>(pagoRepository.findAll(), false, 200, "Ok");
+    }
+    @Transactional(rollbackFor = {Exception.class})
+    public CustomReponse<Pago> update(long id, Pago pago) {
+        Optional<Pago> pagoOptional = pagoRepository.findById(id);
+        if(pagoOptional.isPresent()){
+            pago.setId(id);
+        }else {
+            return new CustomReponse<>(null, true, 400, "No se encontro el pago");
+        }
+
+        return new CustomReponse<>(pagoRepository.save(pago), false, 200, "Ok");
+    }
+    @Transactional(rollbackFor = {Exception.class})
+    public CustomReponse<Pago> delete(long id) {
+        Optional<Pago> pagoOptional = pagoRepository.findById(id);
+        if(pagoOptional.isPresent()){
+            pagoRepository.deleteById(id);
+        }else {
+            return new CustomReponse<>(null, true, 400, "No se encontro el pago");
+        }
+        return new CustomReponse<>(null, false, 200, "Pago eliminado correctamente");
     }
 }

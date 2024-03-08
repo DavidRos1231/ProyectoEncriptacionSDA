@@ -18,7 +18,6 @@ public class PagoController {
     @Autowired
     PagoService pagoService;
 
-
     @GetMapping(value = "/getAll")
     public ResponseEntity<CustomReponse<List<Pago>>> getAll(){
         return ResponseEntity.ok(pagoService.getAll());
@@ -28,6 +27,16 @@ public class PagoController {
     @PostMapping(value = "/save")
     public ResponseEntity<CustomReponse<Pago>> save(@RequestBody Pago pago){
         return ResponseEntity.ok(pagoService.save(pago));
+    }
+
+    @PutMapping(value = "/update/{id}")
+    public ResponseEntity<CustomReponse<Pago>> update(@PathVariable long id, @RequestBody Pago pago){
+        return ResponseEntity.ok(pagoService.update(id, pago));
+    }
+
+    @DeleteMapping(value = "/delete/{id}")
+    public ResponseEntity<CustomReponse<Pago>> delete(@PathVariable long id){
+        return ResponseEntity.ok(pagoService.delete(id));
     }
 
 
