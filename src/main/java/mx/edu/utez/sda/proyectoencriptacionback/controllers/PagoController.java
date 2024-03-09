@@ -8,6 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @RestController
@@ -19,19 +25,19 @@ public class PagoController {
     PagoService pagoService;
 
     @GetMapping(value = "/getAll")
-    public ResponseEntity<CustomReponse<List<Pago>>> getAll(){
+    public ResponseEntity<CustomReponse<List<SaveRequest>>> getAll() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         return ResponseEntity.ok(pagoService.getAll());
     }
 
     //Remplazar por DTO que tambien va a decifrar
     @PostMapping(value = "/save")
-    public ResponseEntity<CustomReponse<Pago>> save(@RequestBody Pago pago){
-        return ResponseEntity.ok(pagoService.save(pago));
+    public ResponseEntity<CustomReponse<Pago>> save(@RequestBody SaveRequest saveRequest) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+        return ResponseEntity.ok(pagoService.save(saveRequest.ParseToPago()));
     }
 
     @PutMapping(value = "/update/{id}")
-    public ResponseEntity<CustomReponse<Pago>> update(@PathVariable long id, @RequestBody Pago pago){
-        return ResponseEntity.ok(pagoService.update(id, pago));
+    public ResponseEntity<CustomReponse<Pago>> update(@PathVariable long id, @RequestBody SaveRequest saveRequest) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+        return ResponseEntity.ok(pagoService.update(id, saveRequest.ParseToPago()));
     }
 
     @DeleteMapping(value = "/delete/{id}")

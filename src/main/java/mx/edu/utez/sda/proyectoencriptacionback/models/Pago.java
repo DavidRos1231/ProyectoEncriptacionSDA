@@ -47,18 +47,19 @@ public class Pago {
     @Column(name = "telefono", length = 10)
     private String telefono;
 
-    @Column(name = "tarjeta")
+    @Column(name = "tarjeta",columnDefinition = "TEXT")
     private String tarjeta;
 
-    @Column(name = "caducidad")
+    @Column(name = "ultimos4", length = 4)
+    private String ultimos4;
+
+    @Column(name = "caducidad",columnDefinition = "TEXT")
     private String caducidad;
 
-    @Column(name = "cvv")
+    @Column(name = "cvv",columnDefinition = "TEXT")
     private String cvv;
 
     @Column(name = "propietario",length = 80)
     private String propietario;
 
-    @Column(name = "monto")
-    private double monto;
 }

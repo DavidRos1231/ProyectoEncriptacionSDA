@@ -1,5 +1,6 @@
 package mx.edu.utez.sda.proyectoencriptacionback.services;
 
+import mx.edu.utez.sda.proyectoencriptacionback.controllers.SaveRequest;
 import mx.edu.utez.sda.proyectoencriptacionback.models.Pago;
 import mx.edu.utez.sda.proyectoencriptacionback.models.PagoRepository;
 import mx.edu.utez.sda.proyectoencriptacionback.utils.CustomReponse;
@@ -7,6 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,8 +30,13 @@ public class PagoService {
     }
 
     @Transactional(rollbackFor = {Exception.class})
-    public CustomReponse<List<Pago>> getAll() {
-        return new CustomReponse<>(pagoRepository.findAll(), false, 200, "Ok");
+    public CustomReponse<List<SaveRequest>> getAll() throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+        List<Pago> pagos = pagoRepository.findAll();
+        List<SaveRequest> saveRequests = new ArrayList<>();
+        for (Pago pago:pagos) {
+            saveRequests.add(new SaveRequest(pago));
+        }
+        return new CustomReponse<>(saveRequests, false, 200, "Ok");
     }
     @Transactional(rollbackFor = {Exception.class})
     public CustomReponse<Pago> update(long id, Pago pago) {
