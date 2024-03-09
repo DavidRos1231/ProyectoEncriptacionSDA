@@ -1,5 +1,10 @@
 package mx.edu.utez.sda.proyectoencriptacionback.utils;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -11,6 +16,11 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class CryptoService {
     private String key="1234567812345678";
     private String iv="1234567812345678";
